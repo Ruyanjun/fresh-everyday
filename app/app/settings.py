@@ -153,10 +153,10 @@ TINYMCE_DEFAULT_CONFIG = {
 
 # 邮箱配置
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend' 
-EMAIL_HOST = 'smtp.163.com' # smtp服务地址
-EMAIL_PORT = 25 # smtp服务端口
-EMAIL_HOST_USER = 'ruyanjun@163.com' #发送者邮箱
-EMAIL_HOST_PASSWORD = 'XXIJPDBWXDMDRJVK' # 授权码
+EMAIL_HOST = 'smtp.qq.com' # smtp服务地址
+EMAIL_PORT = 250 # smtp服务端口
+EMAIL_HOST_USER = '1111@163.com' #发送者邮箱
+EMAIL_HOST_PASSWORD = '1111' # 授权码
 
 # django的缓存配置
 CACHES = {
