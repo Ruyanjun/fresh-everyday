@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}天天生鲜-首页{% endblock title %}
+
+{% block toplink %}
+	<script type="text/javascript" src="{% static 'js/jquery-1.12.4.min.js' %}"></script>
+	<script type="text/javascript" src="{% static 'js/jquery-ui.min.js' %}"></script>
+	<script type="text/javascript" src="{% static 'js/slide.js' %}"></script>
+{% endblock toplink %}
+
+{% block content %}
+	{% include 'header-con.html' %}
+
+	{% include 'search-bar.html' %}
+
+	<div class="navbar_con">
+		<div class="navbar">
+			<h1 class="fl">全部商品分类</h1>
+			<ul class="navlist fl">
+				<li><a href="">首页</a></li>
+				<li class="interval">|</li>
+				<li><a href="">手机生鲜</a></li>
+				<li class="interval">|</li>
+				<li><a href="">抽奖</a></li>
+			</ul>
+		</div>
+	</div>
+
+	<div class="center_con clearfix">
+		<ul class="subnav fl">
+			{% for type in types %}
+			<li><a href="#model0{{ forloop.counter }}" class="{{ type.logo }}">{{ type.name }}</a></li>
+			{% endfor %}
+		</ul>
+		<div class="slide fl">
+			<ul class="slide_pics">
+				{% for banner in banners %}
+				<li><img src="{{ banner.image.url }}" alt="幻灯片"></li>
+				{% endfor %}
+			</ul>
+			<div class="prev"></div>
+			<div class="next"></div>
+			<ul class="points"></ul>
+		</div>
+		<div class="adv fl">
+			{% for promotion in promotions %}
+			<a href="#"><img src="{{ promotion.image.url }}"></a>
+			{% endfor %}
+		</div>
+	</div>
+{% for type in types %}
+	<div class="list_model">
+		<div class="list_title clearfix">
+			<h3 class="fl" id="model0{{ forloop.counter }}">{{ type.name }}</h3>
+			<div class="subtitle fl">
+				<span>|</span>
+				{% for title in type.title_banners %}
+				<a href="{% url 'goods:detail' good_id=title.good.id %}">{{ title.good.name }}</a>
+				{% endfor %}
+			</div>
+			<a href="#" class="goods_more fr" id="{{ type.logo }}_more">查看更多 ></a>
+		</div>
+
+		<div class="goods_con clearfix">
+			<div class="goods_banner fl"><img src="{{ type.image.url }}"></div>
+			<ul class="goods_list fl">
+				{% for image_banners in type.image_banners %}
+				<li>
+					<h4><a href="{% url 'goods:detail' good_id=image_banners.good.id %}">{{ image_banners.good.name }}</a></h4>
+					<a href="{% url 'goods:detail' good_id=image_banners.good.id %}"><img src="{{ image_banners.good.image.url }}"></a>
+					<div class="prize">¥ {{ image_banners.good.price }}</div>
+				</li>
+				{% endfor %}
+			</ul>
+		</div>
+	</div>
+{% endfor %}
+{% endblock content %}

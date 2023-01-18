@@ -1,0 +1,55 @@
+{% extends 'base-user.html' %}
+{% load static %}
+
+{% block user_content %}
+<h3 class="common_title2">全部订单</h3>
+{% csrf_token %}
+{% for order in orders %}
+<ul class="order_list_th w978 clearfix">
+	<li class="col01">{{ order.create_time }}</li>
+	<li class="col02">订单号：{{ order.order_id }}</li>
+	<li class="col02 stress">{{ order.status_name }}</li>		
+</ul>
+
+<table class="order_list_table w980">
+	<tbody>
+
+		<tr>
+			<td width="55%">
+				{% for order_good in order.order_goods %}
+				<ul class="order_goods_list clearfix">					
+					<li class="col01"><img src="{{ order_good.goods_sku.image.url }}"></li>
+					<li class="col02">{{ order_good.goods_sku.name }}<em>{{ order_good.goods_sku.price }}元/{{ order_good.goods_sku.unite }}</em></li>	
+					<li class="col03">{{ order_good.count }}</li>
+					<li class="col04">{{ order_good.price }}元</li>	
+				</ul>
+				{% endfor %}
+			</td>
+			<td width="15%">{{ order.total_price }}元</td>
+			<td width="15%">{{ order.status_name }}</td>
+			<td width="15%"><a href="javascript:;" trade_no="{{ order.order_id }}" status="{{ order.status }}" class="oper_btn">去付款</a></td>
+		</tr>
+	</tbody>
+</table>
+{% endfor %}
+
+<div class="pagenation">
+	{% if orders.has_previous %}
+	<a href="{% url 'users:user_order' orders.previous_page_number %}"><上一页</a>
+	{% endif %}
+	{% for page in page_range %}
+		{% if page == orders.number %}
+		<a href="{% url 'users:user_order' page %}" class="active">{{ page }}</a>
+		{% else %}
+		<a href="{% url 'users:user_order' page %}">{{ page }}</a>
+		{% endif %}
+	{% endfor %}
+	{% if orders.has_next %}
+		<a href="{% url 'users:user_order' orders.next_page_number %}">下一页></a>
+	{% endif %}
+</div>
+
+<script src="{% static 'js/jquery-1.12.4.min.js' %}"></script>
+<script src="{% static 'js/user.js' %}"></script>
+
+{% endblock user_content %}
